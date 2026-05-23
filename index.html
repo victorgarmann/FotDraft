@@ -4,83 +4,553 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FotDraft — FIFA World Cup 2026 Fantasy Draft</title>
+  <meta name="description" content="Draft national team players, build your dream squad, and compete with friends through the FIFA World Cup 2026." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: #0a0a0a;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #050505;
       color: #f0f0f0;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Nav */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 1.25rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 100;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background: rgba(5, 5, 5, 0.7);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .nav-logo {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    .nav-logo span { color: #e63946; }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+    .nav-links a {
+      color: #aaa;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #fff; }
+
+    /* Hero */
+    .hero {
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 2rem;
       text-align: center;
+      padding: 6rem 2rem 4rem;
+      position: relative;
+      overflow: hidden;
     }
-    .logo {
-      font-size: 3rem;
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(230, 57, 70, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -300px;
+      right: -200px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(56, 176, 0, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-content { position: relative; z-index: 1; }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(230, 57, 70, 0.1);
+      border: 1px solid rgba(230, 57, 70, 0.3);
+      color: #e63946;
+      padding: 0.4rem 1rem;
+      border-radius: 100px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 2rem;
+    }
+    .pill .dot {
+      width: 6px;
+      height: 6px;
+      background: #e63946;
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.4); }
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 7vw, 5.5rem);
+      font-weight: 900;
+      letter-spacing: -2px;
+      line-height: 1;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(180deg, #fff 0%, #888 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    h1 .accent {
+      background: linear-gradient(135deg, #e63946 0%, #ff6b6b 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p.lead {
+      font-size: clamp(1.05rem, 2vw, 1.3rem);
+      color: #aaa;
+      max-width: 600px;
+      margin: 0 auto 3rem;
+      line-height: 1.6;
+    }
+
+    .stats {
+      display: flex;
+      gap: 3rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 3rem;
+    }
+    .stat .num {
+      font-size: 2.5rem;
       font-weight: 800;
       letter-spacing: -1px;
+      background: linear-gradient(135deg, #e63946 0%, #ff6b6b 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .stat .label {
+      font-size: 0.85rem;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 600;
+      margin-top: 0.25rem;
+    }
+
+    /* Sections */
+    section {
+      padding: 6rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .section-label {
+      color: #e63946;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 1rem;
+    }
+    h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 1rem;
+      line-height: 1.1;
+    }
+    .section-intro {
+      color: #888;
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin-bottom: 3.5rem;
+    }
+
+    /* Features grid */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+    .feature {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 2rem;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+    .feature:hover {
+      transform: translateY(-4px);
+      border-color: rgba(230, 57, 70, 0.4);
+    }
+    .feature .icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(230, 57, 70, 0.2) 0%, rgba(230, 57, 70, 0.05) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+      color: #e63946;
+    }
+    .feature h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
       margin-bottom: 0.5rem;
     }
-    .logo span { color: #e63946; }
-    .tagline {
-      font-size: 1.1rem;
+    .feature p {
       color: #888;
-      margin-bottom: 3rem;
-    }
-    .description {
-      max-width: 480px;
-      line-height: 1.7;
-      color: #ccc;
-      margin-bottom: 3rem;
-    }
-    .badge {
-      display: inline-block;
-      background: #1a1a1a;
-      border: 1px solid #333;
-      border-radius: 12px;
-      padding: 0.75rem 1.5rem;
       font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* How it works */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      counter-reset: step;
+    }
+    .step {
+      position: relative;
+      padding: 2rem 1.5rem 1.5rem;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+    }
+    .step::before {
+      counter-increment: step;
+      content: counter(step, decimal-leading-zero);
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: rgba(230, 57, 70, 0.6);
+      letter-spacing: 1px;
+    }
+    .step h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      margin-top: 0.5rem;
+    }
+    .step p {
       color: #888;
-      margin-bottom: 3rem;
-    }
-    .support {
       font-size: 0.9rem;
-      color: #555;
     }
-    .support a {
-      color: #e63946;
+
+    /* Premium */
+    .premium {
+      background: linear-gradient(135deg, rgba(230, 57, 70, 0.08) 0%, rgba(230, 57, 70, 0.02) 100%);
+      border: 1px solid rgba(230, 57, 70, 0.2);
+      border-radius: 24px;
+      padding: 3rem;
+      margin: 4rem auto;
+      max-width: 700px;
+      text-align: center;
+    }
+    .premium-tag {
+      display: inline-block;
+      background: linear-gradient(135deg, #e63946 0%, #ff6b6b 100%);
+      color: #fff;
+      padding: 0.3rem 0.85rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 1.5rem;
+    }
+    .premium h2 { margin-bottom: 1rem; }
+    .premium-price {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin: 1.5rem 0 0.25rem;
+      letter-spacing: -1px;
+    }
+    .premium-price .small {
+      font-size: 1rem;
+      color: #888;
+      font-weight: 500;
+      margin-left: 0.5rem;
+    }
+    .premium-features {
+      list-style: none;
+      max-width: 380px;
+      margin: 2rem auto 0;
+      text-align: left;
+    }
+    .premium-features li {
+      padding: 0.6rem 0;
+      color: #ccc;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .premium-features li::before {
+      content: '';
+      width: 18px;
+      height: 18px;
+      background: rgba(230, 57, 70, 0.2);
+      border-radius: 50%;
+      flex-shrink: 0;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23e63946'><path d='M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z'/></svg>");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 12px;
+    }
+
+    /* CTA */
+    .cta {
+      text-align: center;
+      padding: 6rem 2rem;
+    }
+    .cta h2 {
+      max-width: 700px;
+      margin: 0 auto 1rem;
+    }
+    .cta p {
+      color: #888;
+      margin-bottom: 2rem;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: linear-gradient(135deg, #e63946 0%, #c1121f 100%);
+      color: #fff;
+      padding: 0.9rem 2rem;
+      border-radius: 100px;
+      font-weight: 600;
       text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 8px 32px rgba(230, 57, 70, 0.3);
     }
-    .support a:hover { text-decoration: underline; }
-    footer {
-      margin-top: 4rem;
-      font-size: 0.8rem;
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(230, 57, 70, 0.4);
+    }
+
+    /* Footer */
+    footer.site-footer {
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding: 3rem 2rem 2rem;
+      text-align: center;
+    }
+    .footer-logo {
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+    }
+    .footer-logo span { color: #e63946; }
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      color: #888;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: #fff; }
+    .footer-copy {
       color: #444;
+      font-size: 0.8rem;
     }
-    footer a { color: #555; text-decoration: none; }
-    footer a:hover { color: #888; }
+
+    @media (max-width: 640px) {
+      nav { padding: 1rem 1.25rem; }
+      .nav-links { gap: 1.25rem; }
+      section { padding: 4rem 1.25rem; }
+      .stats { gap: 2rem; }
+      .premium { padding: 2rem 1.5rem; }
+    }
   </style>
 </head>
 <body>
-  <div class="logo">Fot<span>Draft</span></div>
-  <p class="tagline">FIFA World Cup 2026 Fantasy Draft</p>
+  <nav>
+    <div class="nav-logo">Fot<span>Draft</span></div>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="#premium">Premium</a>
+    </div>
+  </nav>
 
-  <p class="description">
-    Create a group with friends, snake-draft national team players into your squad,
-    and earn points based on real match ratings. 48 nations. 8 matchdays. One champion.
-  </p>
+  <header class="hero">
+    <div class="hero-content">
+      <div class="pill"><span class="dot"></span> Coming soon · Summer 2026</div>
+      <h1>Your World Cup,<br/>your <span class="accent">draft</span>.</h1>
+      <p class="lead">
+        Snake-draft national team players with friends. Build a 15-player squad.
+        Score points from real match ratings across every World Cup matchday.
+      </p>
+      <div class="stats">
+        <div class="stat">
+          <div class="num">48</div>
+          <div class="label">Nations</div>
+        </div>
+        <div class="stat">
+          <div class="num">8</div>
+          <div class="label">Matchdays</div>
+        </div>
+        <div class="stat">
+          <div class="num">15</div>
+          <div class="label">Player squads</div>
+        </div>
+      </div>
+    </div>
+  </header>
 
-  <div class="badge">Coming soon to the App Store</div>
+  <section id="features">
+    <div class="section-label">Features</div>
+    <h2>Built for the<br/>tournament of a lifetime.</h2>
+    <p class="section-intro">
+      FotDraft brings the energy of a fantasy draft to the world's biggest stage —
+      with mechanics designed for the unique rhythm of a World Cup.
+    </p>
 
-  <div class="support">
-    Need help? Contact us at <a href="mailto:snarum@gmail.com">snarum@gmail.com</a>
-  </div>
+    <div class="features">
+      <div class="feature">
+        <div class="icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>Draft with friends</h3>
+        <p>Create private groups, pick draft order, and snake through rounds together.</p>
+      </div>
 
-  <footer>
-    <a href="privacy.html">Privacy Policy</a>
+      <div class="feature">
+        <div class="icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <h3>Live draft timer</h3>
+        <p>Picks happen on the clock. Stay in the room or auto-pick when time runs out.</p>
+      </div>
+
+      <div class="feature">
+        <div class="icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <h3>Real match ratings</h3>
+        <p>Squad points come from real performance ratings — every goal, save, and assist counts.</p>
+      </div>
+
+      <div class="feature">
+        <div class="icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <h3>4-3-3 formation</h3>
+        <p>Build your starting XI and four bench players — captain, wingers, the works.</p>
+      </div>
+
+      <div class="feature">
+        <div class="icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        </div>
+        <h3>Live standings</h3>
+        <p>Group leaderboards update after every match. Watch your manager climb in real time.</p>
+      </div>
+
+      <div class="feature">
+        <div class="icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+        </div>
+        <h3>Token boosts</h3>
+        <p>Spend tokens for captain multipliers, late swaps, and bench activations.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="how">
+    <div class="section-label">How it works</div>
+    <h2>Four steps to glory.</h2>
+    <p class="section-intro">No spreadsheets. No commissioner hassle. Just open the app.</p>
+
+    <div class="steps">
+      <div class="step">
+        <h3>Create a group</h3>
+        <p>Invite friends with a link. Pick a draft date and squad size.</p>
+      </div>
+      <div class="step">
+        <h3>Snake draft</h3>
+        <p>Take turns picking the players you believe in most.</p>
+      </div>
+      <div class="step">
+        <h3>Set your XI</h3>
+        <p>Choose your starting eleven and bench before each matchday.</p>
+      </div>
+      <div class="step">
+        <h3>Climb the table</h3>
+        <p>Earn points from real matches. The crown is decided on Final day.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="premium">
+    <div class="premium">
+      <div class="premium-tag">PREMIUM</div>
+      <h2>Bigger groups.<br/>Bigger squads.</h2>
+      <p style="color: #aaa; max-width: 460px; margin: 0 auto;">
+        Unlock everything FotDraft has to offer — one purchase, lasts the whole tournament.
+      </p>
+      <div class="premium-price">$4.99 <span class="small">one-time</span></div>
+      <ul class="premium-features">
+        <li>Groups of 4–20 friends</li>
+        <li>Custom squad sizes (11–19 players)</li>
+        <li>Priority push notifications</li>
+        <li>Supports a one-developer indie project</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="cta">
+    <h2>The World Cup is coming.<br/>Be ready.</h2>
+    <p>Get notified when FotDraft launches on the App Store.</p>
+    <a href="mailto:snarum@gmail.com?subject=Notify%20me%20when%20FotDraft%20launches" class="btn">
+      Get notified
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
+  </section>
+
+  <footer class="site-footer">
+    <div class="footer-logo">Fot<span>Draft</span></div>
+    <div class="footer-links">
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="mailto:snarum@gmail.com">Support</a>
+    </div>
+    <p class="footer-copy">&copy; 2026 FotDraft. Not affiliated with FIFA.</p>
   </footer>
 </body>
 </html>

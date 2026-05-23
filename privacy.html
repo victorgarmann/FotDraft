@@ -4,132 +4,236 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Privacy Policy — FotDraft</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: #0a0a0a;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #050505;
       color: #f0f0f0;
-      padding: 2rem;
-      max-width: 700px;
-      margin: 0 auto;
       line-height: 1.7;
+      min-height: 100vh;
     }
-    header {
-      margin-bottom: 2.5rem;
-      padding-bottom: 1.5rem;
-      border-bottom: 1px solid #222;
+
+    nav {
+      position: sticky;
+      top: 0;
+      padding: 1.25rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background: rgba(5, 5, 5, 0.7);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      z-index: 10;
     }
-    header a {
-      font-size: 0.9rem;
-      color: #e63946;
-      text-decoration: none;
-    }
-    header a:hover { text-decoration: underline; }
-    h1 {
-      font-size: 2rem;
+    .nav-logo {
+      font-size: 1.25rem;
       font-weight: 800;
-      margin: 1rem 0 0.25rem;
+      letter-spacing: -0.5px;
+      text-decoration: none;
+      color: #fff;
+    }
+    .nav-logo span { color: #e63946; }
+    .back {
+      color: #888;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.2s;
+    }
+    .back:hover { color: #fff; }
+
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 4rem 2rem 6rem;
+    }
+
+    .header-block {
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .label {
+      color: #e63946;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 1rem;
+    }
+    h1 {
+      font-size: clamp(2.25rem, 5vw, 3.25rem);
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      margin-bottom: 0.75rem;
+      background: linear-gradient(180deg, #fff 0%, #888 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
     .updated {
-      font-size: 0.85rem;
-      color: #555;
+      font-size: 0.9rem;
+      color: #666;
     }
+    .lead {
+      color: #bbb;
+      font-size: 1.05rem;
+      margin-bottom: 2rem;
+    }
+
     h2 {
-      font-size: 1.1rem;
+      font-size: 1.35rem;
       font-weight: 700;
-      color: #f0f0f0;
-      margin: 2rem 0 0.75rem;
+      color: #fff;
+      margin: 3rem 0 1rem;
+      letter-spacing: -0.3px;
     }
     p {
-      color: #bbb;
+      color: #aaa;
       margin-bottom: 1rem;
+      font-size: 1rem;
     }
     ul {
-      color: #bbb;
-      padding-left: 1.5rem;
+      list-style: none;
+      padding: 0;
       margin-bottom: 1rem;
     }
-    ul li { margin-bottom: 0.4rem; }
-    footer {
-      margin-top: 3rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid #222;
-      font-size: 0.8rem;
-      color: #444;
+    ul li {
+      color: #aaa;
+      padding: 0.6rem 0 0.6rem 1.75rem;
+      position: relative;
+      font-size: 1rem;
     }
+    ul li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 1rem;
+      width: 8px;
+      height: 8px;
+      background: linear-gradient(135deg, #e63946 0%, #ff6b6b 100%);
+      border-radius: 50%;
+    }
+    strong { color: #ddd; font-weight: 600; }
+    a { color: #e63946; text-decoration: none; transition: opacity 0.2s; }
+    a:hover { opacity: 0.8; }
+
+    footer {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.85rem;
+      color: #555;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    footer .footer-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+    footer .footer-links a {
+      color: #888;
+      font-size: 0.85rem;
+    }
+    footer .footer-links a:hover { color: #fff; }
   </style>
 </head>
 <body>
-  <header>
-    <a href="index.html">← FotDraft</a>
-    <h1>Privacy Policy</h1>
-    <p class="updated">Last updated: May 23, 2026</p>
-  </header>
+  <nav>
+    <a href="index.html" class="nav-logo">Fot<span>Draft</span></a>
+    <a href="index.html" class="back">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      Back to home
+    </a>
+  </nav>
 
-  <p>
-    FotDraft ("we", "our", or "us") is committed to protecting your privacy.
-    This policy explains what information we collect, how we use it, and your rights regarding that information.
-  </p>
+  <main>
+    <div class="header-block">
+      <div class="label">Legal</div>
+      <h1>Privacy Policy</h1>
+      <p class="updated">Last updated: May 23, 2026</p>
+    </div>
 
-  <h2>Information We Collect</h2>
-  <ul>
-    <li><strong>Email address</strong> — collected when you create an account, used for authentication.</li>
-    <li><strong>Display name</strong> — the name you choose when setting up your profile.</li>
-    <li><strong>Draft and group data</strong> — your draft picks, squad, group memberships, and scores.</li>
-    <li><strong>Push notification token</strong> — used to send you draft and game alerts if you opt in.</li>
-    <li><strong>Purchase receipt</strong> — if you purchase FotDraft Premium, the transaction is processed by Apple and we receive only the entitlement status; we do not store payment details.</li>
-  </ul>
+    <p class="lead">
+      FotDraft ("we", "our", or "us") is committed to protecting your privacy.
+      This policy explains what information we collect, how we use it, and your rights regarding that information.
+    </p>
 
-  <h2>How We Use Your Information</h2>
-  <ul>
-    <li>To create and manage your account</li>
-    <li>To run the fantasy draft experience (groups, picks, standings)</li>
-    <li>To send push notifications related to your drafts and match results (only if you grant permission)</li>
-    <li>To verify premium purchase status</li>
-  </ul>
+    <h2>Information We Collect</h2>
+    <ul>
+      <li><strong>Email address</strong> — collected when you create an account, used for authentication.</li>
+      <li><strong>Display name</strong> — the name you choose when setting up your profile.</li>
+      <li><strong>Draft and group data</strong> — your draft picks, squad, group memberships, and scores.</li>
+      <li><strong>Push notification token</strong> — used to send you draft and game alerts if you opt in.</li>
+      <li><strong>Purchase receipt</strong> — if you purchase FotDraft Premium, the transaction is processed by Apple and we receive only the entitlement status; we do not store payment details.</li>
+    </ul>
 
-  <h2>Third-Party Services</h2>
-  <p>We use the following third-party services, each with their own privacy policies:</p>
-  <ul>
-    <li><strong>Firebase (Google)</strong> — authentication and push notification delivery</li>
-    <li><strong>Supabase</strong> — database storage for your account and draft data</li>
-    <li><strong>RevenueCat</strong> — in-app purchase management</li>
-    <li><strong>Apple App Store</strong> — app distribution and payment processing</li>
-  </ul>
+    <h2>How We Use Your Information</h2>
+    <ul>
+      <li>To create and manage your account</li>
+      <li>To run the fantasy draft experience (groups, picks, standings)</li>
+      <li>To send push notifications related to your drafts and match results (only if you grant permission)</li>
+      <li>To verify premium purchase status</li>
+    </ul>
 
-  <h2>Data Sharing</h2>
-  <p>
-    We do not sell, rent, or share your personal information with third parties for marketing purposes.
-    Your data is only shared with the services listed above as necessary to operate the app.
-  </p>
+    <h2>Third-Party Services</h2>
+    <p>We use the following third-party services, each with their own privacy policies:</p>
+    <ul>
+      <li><strong>Firebase (Google)</strong> — authentication and push notification delivery</li>
+      <li><strong>Supabase</strong> — database storage for your account and draft data</li>
+      <li><strong>RevenueCat</strong> — in-app purchase management</li>
+      <li><strong>Apple App Store</strong> — app distribution and payment processing</li>
+    </ul>
 
-  <h2>Data Retention</h2>
-  <p>
-    Your data is retained as long as your account is active. You may request deletion of your account
-    and associated data at any time by contacting us.
-  </p>
+    <h2>Data Sharing</h2>
+    <p>
+      We do not sell, rent, or share your personal information with third parties for marketing purposes.
+      Your data is only shared with the services listed above as necessary to operate the app.
+    </p>
 
-  <h2>Children's Privacy</h2>
-  <p>
-    FotDraft is not directed at children under 13. We do not knowingly collect personal information
-    from children under 13.
-  </p>
+    <h2>Data Retention</h2>
+    <p>
+      Your data is retained as long as your account is active. You may request deletion of your account
+      and associated data at any time by contacting us.
+    </p>
 
-  <h2>Your Rights</h2>
-  <p>
-    You may request access to, correction of, or deletion of your personal data at any time
-    by contacting us at the email below.
-  </p>
+    <h2>Children's Privacy</h2>
+    <p>
+      FotDraft is not directed at children under 13. We do not knowingly collect personal information
+      from children under 13.
+    </p>
 
-  <h2>Contact</h2>
-  <p>
-    If you have any questions about this privacy policy, please contact us at
-    <a href="mailto:snarum@gmail.com" style="color: #e63946;">snarum@gmail.com</a>.
-  </p>
+    <h2>Your Rights</h2>
+    <p>
+      You may request access to, correction of, or deletion of your personal data at any time
+      by contacting us at the email below.
+    </p>
 
-  <footer>
-    &copy; 2026 FotDraft. All rights reserved.
-  </footer>
+    <h2>Contact</h2>
+    <p>
+      If you have any questions about this privacy policy, please contact us at
+      <a href="mailto:snarum@gmail.com">snarum@gmail.com</a>.
+    </p>
+
+    <footer>
+      <span>&copy; 2026 FotDraft</span>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="mailto:snarum@gmail.com">Support</a>
+      </div>
+    </footer>
+  </main>
 </body>
 </html>

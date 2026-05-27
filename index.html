@@ -588,6 +588,143 @@
     .pos.st { background: rgba(239, 68, 68, 0.18); border-color: rgba(239, 68, 68, 0.4); color: #fca5a5; }
     .pos.sm { padding: 0.22rem 0.5rem; font-size: 0.6rem; }
 
+    /* Mini pitch (4-3-3) */
+    .pitch {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      margin-top: 1.25rem;
+      border-radius: 14px;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at center, rgba(20, 184, 166, 0.20) 0%, rgba(6, 78, 73, 0.35) 100%),
+        repeating-linear-gradient(90deg,
+          rgba(255,255,255,0) 0,
+          rgba(255,255,255,0) 12.5%,
+          rgba(255,255,255,0.025) 12.5%,
+          rgba(255,255,255,0.025) 25%);
+      border: 1px solid var(--border);
+    }
+    /* halfway line */
+    .pitch::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 8%;
+      right: 8%;
+      height: 1px;
+      background: rgba(255,255,255,0.15);
+    }
+    /* center circle */
+    .pitch::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 26%;
+      aspect-ratio: 1;
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+    /* penalty boxes via inner box-shadow */
+    .pitch-markings {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .pitch-markings::before,
+    .pitch-markings::after {
+      content: '';
+      position: absolute;
+      left: 22%;
+      right: 22%;
+      height: 14%;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .pitch-markings::before { top: 0; border-top: none; }
+    .pitch-markings::after { bottom: 0; border-bottom: none; }
+
+    .dot {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+      color: #fff;
+      transform: translate(-50%, -50%);
+      border: 1.5px solid rgba(255,255,255,0.35);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.35);
+      z-index: 2;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .feature:hover .dot { box-shadow: 0 6px 14px rgba(0,0,0,0.45); }
+    .dot.gk { background: linear-gradient(135deg, #fbbf24, #d97706); color: #422006; }
+    .dot.def { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+    .dot.mid { background: linear-gradient(135deg, #10b981, #047857); }
+    .dot.wing { background: linear-gradient(135deg, #a855f7, #7c3aed); }
+    .dot.st { background: linear-gradient(135deg, #ef4444, #b91c1c); }
+    .dot::after {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      opacity: 0;
+    }
+
+    .pitch-label {
+      position: absolute;
+      top: 0.6rem;
+      right: 0.7rem;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,0.45);
+      z-index: 3;
+    }
+
+    .bench {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      margin-top: 0.85rem;
+      padding: 0.55rem 0.85rem;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+    }
+    .bench-label {
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: var(--fg-faint);
+      margin-right: 0.15rem;
+    }
+    .bench-dot {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.56rem;
+      font-weight: 800;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.18);
+    }
+    .bench-dot.gk { background: rgba(245, 158, 11, 0.35); color: #fde68a; }
+    .bench-dot.def { background: rgba(59, 130, 246, 0.35); color: #bfdbfe; }
+    .bench-dot.mid { background: rgba(16, 185, 129, 0.35); color: #a7f3d0; }
+    .bench-dot.st { background: rgba(239, 68, 68, 0.35); color: #fecaca; }
+
     /* Ratings row */
     .ratings-list { margin-top: 1.25rem; }
     .rating-row {
@@ -1291,13 +1428,27 @@
           </div>
           <h3>4-3-3 formation</h3>
           <p>Starting XI plus 4 bench. Captain, wingers, the works.</p>
-          <div class="formation-demo">
-            <span class="pos gk">GK</span>
-            <span class="pos def">CB</span>
-            <span class="pos def">RB</span>
-            <span class="pos mid">CM</span>
-            <span class="pos wing">W</span>
-            <span class="pos st">ST</span>
+          <div class="pitch" aria-hidden="true">
+            <div class="pitch-markings"></div>
+            <span class="pitch-label">4-3-3</span>
+            <span class="dot wing" style="top: 18%; left: 20%;">W</span>
+            <span class="dot st"   style="top: 14%; left: 50%;">ST</span>
+            <span class="dot wing" style="top: 18%; left: 80%;">W</span>
+            <span class="dot mid"  style="top: 40%; left: 26%;">CM</span>
+            <span class="dot mid"  style="top: 40%; left: 50%;">CM</span>
+            <span class="dot mid"  style="top: 40%; left: 74%;">CM</span>
+            <span class="dot def"  style="top: 64%; left: 14%;">LB</span>
+            <span class="dot def"  style="top: 66%; left: 38%;">CB</span>
+            <span class="dot def"  style="top: 66%; left: 62%;">CB</span>
+            <span class="dot def"  style="top: 64%; left: 86%;">RB</span>
+            <span class="dot gk"   style="top: 88%; left: 50%;">GK</span>
+          </div>
+          <div class="bench" aria-hidden="true">
+            <span class="bench-label">BENCH</span>
+            <span class="bench-dot gk">GK</span>
+            <span class="bench-dot def">DEF</span>
+            <span class="bench-dot mid">MID</span>
+            <span class="bench-dot st">ATT</span>
           </div>
         </div>
 
